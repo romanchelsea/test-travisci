@@ -2,6 +2,15 @@ sudo: required
 services:
   - docker
 
-scripts:
+script:
   - docker build -t xiongwe/node .
   - docker images xiongwe/node
+
+before_deploy:
+  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+
+deploy:
+  provider: script
+  script: docker push xiongwe/node
+  on:
+    branch: master
